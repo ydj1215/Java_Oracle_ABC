@@ -14,13 +14,14 @@ import com.abc.jdbc.dto.MembersDTO;
 
 // 회원가입
 public class MembersDAO {
+    // 연결
     private final Connection connection;
 
     public MembersDAO() {
         connection = DatabaseConnection.getConnection();
     }
 
-    // 회원 추가
+    // 회원 가입
     public void addMember(MembersDTO membersDTO) {
         String sql = "INSERT INTO MEMBERS (INPUTID, PASSWORD, NAME) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -32,10 +33,35 @@ public class MembersDAO {
             System.out.println("MembersDAO addMember Error! : " + e);
         }
     }
+    
+    //로그인
+    public MembersDTO login(MembersDTO membersDTO) {
+        MembersDTO loggedInMember = null;
+        String sql = "SELECT * FROM MEMBERS WHERE INPUTID = ? AND PASSWORD = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, membersDTO.getInputId());
+            preparedStatement.setString(2, membersDTO.getPassword());
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-    // 로그인
-    public void login(MembersDTO membersDTO){
+            // ResultSet 객체에서 다음 행이 존재하는지 확인
+            if (resultSet.next()) {
+                // 만약 다음 행이 존재한다면, 로그인에 성공한 회원 정보를 가져온다.
+                // 로그인한 회원 객체
+                loggedInMember = new MembersDTO();
 
+                // ResultSet으로부터 회원 정보를 가져와서 로그인한 회원 객체에 설정
+                // 'ID' 필드에서 값을 읽어와 loggedInMember의 'id' 필드에 설정
+                loggedInMember.setId(resultSet.getString("ID"));
+                loggedInMember.setInputId(resultSet.getString("INPUTID"));
+                loggedInMember.setPassword(resultSet.getString("PASSWORD"));
+                loggedInMember.setName(resultSet.getString("NAME"));
+            }
+            // 만약 ResultSet에서 다음 행이 없다면,
+            // 로그인에 실패하고 loggedInMember는 여전히 null이다.
+        } catch (Exception e) {
+            System.out.println("MembersDAO login Error! : " + e);
+        }
+        return loggedInMember;
     }
 
     // 모든 회원 조회
