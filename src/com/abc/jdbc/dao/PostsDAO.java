@@ -15,6 +15,19 @@ public class PostsDAO {
         connection = DatabaseConnection.getConnection();
     }
 
+    // 게시글 작성
+    public void addPost(PostsDTO postsDTO) {
+        String sql = "INSERT INTO Posts (TITLE, CONTENT, MEMBERSID) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, postsDTO.getTitle());
+            preparedStatement.setString(2, postsDTO.getContent());
+            preparedStatement.setString(3, postsDTO.getMembersID());
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("PostsDAO addPost Error! : " + e);
+        }
+    }
+
     // 모든 글 조회
     public List<PostsDTO> getAllPosts() {
         List<PostsDTO> postsList = new ArrayList<>();

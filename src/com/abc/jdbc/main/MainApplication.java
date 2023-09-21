@@ -18,7 +18,7 @@ public class MainApplication {
         PostsDTO postsDTO = new PostsDTO();
         PostsDAO postsDAO = new PostsDAO();
         LikesDTO likesDTO = new LikesDTO();
-        LikesDAO likesDAO = new LikesDAO();
+        LikesDAO likesDAO =  new LikesDAO(membersDAO);
 
         while (true) {
             if (loggedInUser == null) { // 로그인하지 않은 경우
@@ -79,16 +79,15 @@ public class MainApplication {
                 }
             } else { // 로그인한 경우
                 switch (choice) {
-                    case 1:
-//                        System.out.print("글 제목 입력: ");
-//                        String title = scanner.next();
-//                        System.out.print("글 내용 입력: ");
-//                        String content = scanner.next();
-//                        PostsDTO postsDTO = new PostsDTO(title, content, loggedInUser.getId());
-//                        PostsDAO postsDAO = new PostsDAO();
-//                        postsDAO.addPost(postsDTO);
-//                        System.out.println("글이 작성되었습니다.");
-//                        break;
+                    case 1: // 글 작성하기
+                        System.out.print("글 제목 입력: ");
+                        String title = sc.next();
+                        System.out.print("글 내용 입력: ");
+                        String content = sc.next();
+                        PostsDTO postsDTO1 = new PostsDTO(title, content, loggedInUser.getId());
+                        postsDAO.addPost(postsDTO1);
+                        System.out.println("글이 작성되었습니다.");
+                        break;
                     case 2: // 글 목록 보기
                         List<PostsDTO> postsList = postsDAO.getAllPosts();
                         if (!postsList.isEmpty()) {
