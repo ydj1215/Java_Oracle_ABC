@@ -3,11 +3,11 @@ package com.abc.jdbc.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.abc.jdbc.dto.PostsDTO;
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.CommentsDTO;
 
@@ -37,15 +37,15 @@ public class CommentsDAO {
     }
 
     // 댓글 보기
-    public List<CommentsDTO> printCommentsByPostId(CommentsDTO commentsDTO) {
+    public void printCommentsByPostId(CommentsDTO commentsDTO) {
         List<CommentsDTO> commentsList = new ArrayList<>();
-        String sql = "SELECT NAME, COMMENTSTEXT, COMMENTSTIME FROM COMMENTS WHERE ID = ?";
+        String sql = "SELECT POSTSID, NAME, COMMENTSTEXT, COMMENTSTIME FROM COMMENTS WHERE POSTSID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, commentsDTO.getPostsId());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                CommentsDTO comment = new CommentsDTO(); // 각 줄 마다 새로운 댓글 객체를 생성
-                comment.setId(resultSet.getString("ID"));
+                CommentsDTO comment = new CommentsDTO();
+                comment.setId(resultSet.getString("POSTSID")); // 댓글의 ID를 POSTSID로 설정
                 comment.setName(resultSet.getString("NAME"));
                 comment.setCommentsText(resultSet.getString("COMMENTSTEXT"));
                 comment.setCommentsTime(String.valueOf(resultSet.getTimestamp("COMMENTSTIME")));
@@ -57,18 +57,20 @@ public class CommentsDAO {
             } else {
                 System.out.println("<" + commentsDTO.getPostsId() + "번 게시글의 댓글 목록>");
                 for (CommentsDTO comment : commentsList) {
-                    System.out.println("댓글 번호 : " + comment.getId());
+                    System.out.println("댓글 번호 : " + comment.getId()); // 댓글의 ID 출력
                     System.out.println("댓글 작성자 : " + comment.getName());
                     System.out.println("댓글 내용: " + comment.getCommentsText());
                     System.out.println("댓글 시간: " + comment.getCommentsTime());
                     System.out.println("-------------");
                 }
             }
+        } catch (SQLException e) {
+            System.out.println("SQL 오류 발생: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("CommentsDAO printCommentsByPostId Error! : " + e);
+            System.out.println("오류 발생: " + e.getMessage());
         }
-        return commentsList;
     }
+
 
     // 댓글 수정
     public void commentModify() {
