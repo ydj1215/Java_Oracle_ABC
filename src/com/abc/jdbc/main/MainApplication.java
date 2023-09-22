@@ -106,6 +106,10 @@ public class MainApplication {
                             while (isPost) {
                                 List<PostsDTO> enter = postsDAO.enterPost(post);
                                 System.out.println(post + "번 글에 들어 왔습니다.");
+                                if(enter.isEmpty()){
+                                    System.out.println(post+"번 게시글은 존재하지 않습니다.");
+                                    break;
+                                }
                                 for (PostsDTO e : enter) { // 향상된 for 문
                                     System.out.println("<" + post+ "번 글>");
                                     System.out.println("글 번호 : " + e.getId());

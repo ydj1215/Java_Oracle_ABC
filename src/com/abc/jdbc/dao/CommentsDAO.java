@@ -55,7 +55,7 @@ public class CommentsDAO {
             if (commentsList.isEmpty()) {
                 System.out.println(commentsDTO.getPostsId() + "번 게시글에 댓글이 없습니다.");
             } else {
-                System.out.println("게시글 #" + commentsDTO.getPostsId() + "의 댓글 목록:");
+                System.out.println("<" + commentsDTO.getPostsId() + "번 게시글의 댓글 목록>");
                 for (CommentsDTO comment : commentsList) {
                     System.out.println("댓글 번호 : " + comment.getId());
                     System.out.println("댓글 작성자 : " + comment.getName());
@@ -73,7 +73,7 @@ public class CommentsDAO {
     // 댓글 수정
     public void commentModify() {
         String sql = "UPDATE COMMENTS SET COMMENTSTEXT = ? WHERE ID = ?";
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             System.out.print("수정할 댓글 번호를 선택하세요: ");
             int modCommentId = sc.nextInt();
             sc.nextLine();
