@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.CommentsDTO;
+import com.abc.jdbc.util.PrintMenu;
 
 
 public class CommentsDAO {
@@ -57,12 +58,13 @@ public class CommentsDAO {
                 System.out.println(commentsDTO.getPostsId() + "번 게시글에 댓글이 없습니다.");
             } else {
                 System.out.println("<" + commentsDTO.getPostsId() + "번 게시글의 댓글 목록>");
+                PrintMenu.commentLogo();
                 for (CommentsDTO comment : commentsList) {
                     System.out.println("댓글 번호 : " + comment.getId()); // 댓글의 고유 식별자 출력
                     System.out.println("댓글 작성자 : " + comment.getName());
                     System.out.println("댓글 내용: " + comment.getCommentsText());
                     System.out.println("댓글 시간: " + comment.getCommentsTime());
-                    System.out.println("-------------");
+                    System.out.println();
                 }
             }
         } catch (SQLException e) {
@@ -72,8 +74,6 @@ public class CommentsDAO {
         }
         return commentsList;
     }
-
-
 
     // 댓글 수정
     public void commentModify() {

@@ -23,9 +23,10 @@ public class MainApplication {
         LikesDAO likesDAO = new LikesDAO(membersDAO);
         CommentsDAO commentsDAO = new CommentsDAO();
 
+        PrintMenu.ABCLogo();
+        PrintMenu.notLoginMenu();
         while (true) {
             if (loginMember == null) { // 로그인하지 않은 경우
-                PrintMenu.notLoginMenu();
             } else { // 로그인한 경우
                 PrintMenu.loginMenu();
             }
@@ -96,7 +97,7 @@ public class MainApplication {
                             for (PostsDTO post : postsList) { // 향상된 for 문
                                 System.out.println("글 번호 : " + post.getId());
                                 System.out.println("글 제목 : " + post.getTitle());
-                                System.out.println("-".repeat(20));
+                                System.out.println("================================================");
                             }
 
                             // 댓글 작성 및 좋아요 누르기 위해 글 선택
@@ -106,9 +107,7 @@ public class MainApplication {
                             while (isPost) {
                                 List<PostsDTO> enter = postsDAO.enterPost(post);
                                 System.out.println(post + "번 글에 들어 왔습니다.");
-                                System.out.println(".A__A    ✨\uD83C\uDF82✨    A__A\n" +
-                                        "( •⩊•)   _______   (•⩊• )\n" +
-                                        "(>\uD83C\uDF70>)   |           |   (<\uD83D\uDD2A<)\n");
+                                PrintMenu.postLogo();
                                 if(enter.isEmpty()){
                                     System.out.println(post+"번 게시글은 존재하지 않습니다.");
                                     break;
@@ -121,7 +120,7 @@ public class MainApplication {
                                     System.out.println("글 내용 : " + e.getContent());
                                     System.out.println("작성자 : " + e.getMembersID());
                                     System.out.println("추천수 : " + e.getLikesCounts());
-                                    System.out.println("-".repeat(20));
+                                    System.out.println("================================================");
                                     System.out.println();
                                 }
                                 System.out.print("[1]댓글 작성 [2]댓글 수정 [3]댓글 보기 [4] 좋아요 [5] 나가기 : ");
