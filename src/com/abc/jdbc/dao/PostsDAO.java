@@ -28,7 +28,7 @@ public class PostsDAO {
         }
     }
 
-    // 모든 글 조회
+    // 모든 게시글 조회
     public List<PostsDTO> getAllPosts() {
         List<PostsDTO> postsList = new ArrayList<>();
         String sql = "SELECT * FROM POSTS";
@@ -50,6 +50,29 @@ public class PostsDAO {
         return postsList;
     }
 
+    // 게시글 들어가기
+    public List<PostsDTO> enterPost(int postId) {
+        List<PostsDTO> postsList = new ArrayList<>();
+        String sql = "SELECT * FROM POSTS WHERE ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, postId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                PostsDTO post = new PostsDTO();
+                post.setId(resultSet.getString("ID"));
+                post.setTitle(resultSet.getString("TITLE"));
+                post.setCurrentTime(String.valueOf(resultSet.getTimestamp("CURRENTTIME")));
+                post.setContent(resultSet.getString("CONTENT"));
+                post.setMembersID(String.valueOf(resultSet.getInt("MEMBERSID")));
+                post.setLikesCounts(String.valueOf(resultSet.getInt("LIKESCOUNTS")));
+                postsList.add(post);
+            }
+        } catch (Exception e) {
+            System.out.println("PostsDAO enterPost Error! : " + e);
+        }
+        return postsList;
+    }
+    
     // 연결 해제
     public void close() {
         try {
@@ -57,7 +80,7 @@ public class PostsDAO {
                 connection.close();
             }
         } catch (Exception e) {
-            System.out.println("PostDAO close Error! : " + e);
+            System.out.println("PostsDAO close Error! : " + e);
         }
     }
 }

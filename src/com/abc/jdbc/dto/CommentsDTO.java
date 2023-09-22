@@ -7,10 +7,22 @@ public class CommentsDTO {
     private String commentsText;
     private String commentsTime;
 
+    public CommentsDTO(String postId, String membersId, String commentsText) {
+        this.postId = postId;
+        this.membersId = membersId;
+        this.commentsText = commentsText;
+    }
+
+    public CommentsDTO() {
+
+    }
+
+    public CommentsDTO(String comment) {
+    }
+
     public String getId() {
         return id;
     }
-
     public String getPostId() {
         return postId;
     }
