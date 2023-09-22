@@ -11,6 +11,7 @@ import com.abc.jdbc.dto.MembersDTO;
 import com.abc.jdbc.dto.PostsDTO;
 import com.abc.jdbc.dao.CommentsDAO;
 import com.abc.jdbc.dto.CommentsDTO;
+import com.abc.jdbc.util.PrintMenu;
 
 public class MainApplication {
     public static void main(String[] args) {
@@ -24,20 +25,13 @@ public class MainApplication {
 
         while (true) {
             if (loginMember == null) { // 로그인하지 않은 경우
-                System.out.println("<회원 관리 프로그램>");
-                System.out.println("[1] 로그인");
-                System.out.println("[2] 회원가입");
-                System.out.println("[3] 종료");
+                PrintMenu.notLoginMenu();
             } else { // 로그인한 경우
-                System.out.println("<글 관리 프로그램>");
-                System.out.println("[1] 글쓰기");
-                System.out.println("[2] 글 목록보기");
-                System.out.println("[3] 로그아웃");
+                PrintMenu.loginMenu();
             }
 
             System.out.print("메뉴를 선택하세요 : ");
             int choice = sc.nextInt();
-
             if (loginMember == null) { // 로그인하지 않은 경우
                 switch (choice) {
                     case 1: // 로그인
@@ -47,7 +41,6 @@ public class MainApplication {
                         String inputId = sc.next();
                         System.out.print("비밀번호 입력: ");
                         String password = sc.next();
-
                         // 새로운 회원 객체, 입력된 아이디와 비밀번호를 새롭게 생성된 회원 객체에 설정
                         inputMember.setInputId(inputId);
                         inputMember.setPassword(password);
@@ -58,6 +51,7 @@ public class MainApplication {
                             System.out.println("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.");
                         }
                         break;
+
                     case 2: // 회원 가입
                         System.out.print("아이디 입력: ");
                         inputId = sc.next();
@@ -69,12 +63,14 @@ public class MainApplication {
                         membersDAO.addMember(membersDTO);
                         System.out.println("회원이 추가되었습니다.");
                         break;
+
                     case 3: // 종료
                         membersDAO.close();
                         sc.close(); // 스캐너를 먼저 닫습니다.
                         System.out.println("프로그램을 종료합니다.");
                         System.exit(0);
                         break;
+
                     default:
                         System.out.println("올바른 숫자를 입력해주세요.");
                         break;
@@ -90,6 +86,7 @@ public class MainApplication {
                         postsDAO.addPost(myPostsDTO);
                         System.out.println("글이 작성되었습니다.");
                         break;
+
                     case 2:
                         // 글 목록
                         List<PostsDTO> postsList = postsDAO.getAllPosts();
@@ -104,49 +101,54 @@ public class MainApplication {
                             // 댓글 작성 및 좋아요 누르기 위해 글 선택
                             System.out.print("몇번 글에 들어갈까요? : ");
                             int post = sc.nextInt();
-                            List<PostsDTO> enter = postsDAO.enterPost(post);
-                            for (PostsDTO selectedPost : enter) { // 향상된 for 문
-                                System.out.println("글 번호 : " + selectedPost.getId());
-                                System.out.println("글 제목 : " + selectedPost.getTitle());
-                                System.out.println("글 작성 시간 : " + selectedPost.getCurrentTime());
-                                System.out.println("글 내용 : " + selectedPost.getContent());
-                                System.out.println("작성자 : " + selectedPost.getMembersID());
-                                System.out.println("추천수 : " + selectedPost.getLikesCounts());
-                                System.out.println("-".repeat(20));
-                                System.out.println();
+                            boolean isPost = true;
+                            while (isPost) {
+                                List<PostsDTO> enter = postsDAO.enterPost(post);
+                                for (PostsDTO e : enter) { // 향상된 for 문
+                                    System.out.println("글 번호 : " + e.getId());
+                                    System.out.println("글 제목 : " + e.getTitle());
+                                    System.out.println("글 작성 시간 : " + e.getCurrentTime());
+                                    System.out.println("글 내용 : " + e.getContent());
+                                    System.out.println("작성자 : " + e.getMembersID());
+                                    System.out.println("추천수 : " + e.getLikesCounts());
+                                    System.out.println("-".repeat(20));
+                                }
+                                System.out.println(post + "번방에 들어 왔습니다.");
+                                System.out.print("[1]댓글 작성 [2]댓글 수정 [3]댓글 보기 [4] 좋아요 누르기 [5] 나가기 : ");
+                                int action = sc.nextInt();
+                                switch (action) {
+                                    case 1: // 댓글 작성
+                                        System.out.print("댓글을 입력해주세요 : ");
+                                        String comment = sc.next();
+                                        commentsDAO.addComment(new CommentsDTO(Integer.toString(post), loginMember.getId(), comment));
+                                        break;
+                                    case 2: // 댓글 수정
+                                        commentsDAO.commentModify();
+                                        break;
+                                    case 3: // 댓글 보기
+                                        commentsDAO.printCommentsByPostId(new CommentsDTO(Integer.toString(post), loginMember.getId()));
+                                        break;
+                                    case 4: // 좋아요
+                                        System.out.println("좋아요를 누르시겠습니까? (1 : 누른다 / 2 : 안누른다 / 3 : 뒤로 가기) : ");
+                                        int input = sc.nextInt();
+                                        if (input == 1) { // 좋아요
+                                            likesDAO.addLike(new LikesDTO(Integer.toString(post), loginMember.getId()));
+                                        } else if (input == 2) { // 안누른다
+
+                                        } else if (input == 3) { // 뒤로 가기
+
+                                        } else {
+                                            System.out.println("올바른 숫자를 입력해주세요.");
+                                        }
+                                        break;
+                                    case 5:
+                                        isPost = false;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
                             }
-                            System.out.println(post + "번방에 들어 왔습니다.");
-                            System.out.print("[1]댓글 작성 [2]댓글 수정 [3]댓글 보기 [4] 좋아요 누르기 : ");
-                            int action = sc.nextInt();
-                            switch (action) {
-                                case 1: // 댓글 작성
-                                    System.out.print("댓글을 입력해주세요 : ");
-                                    String comment = sc.next();
-                                    commentsDAO.addComment(new CommentsDTO(Integer.toString(post), loginMember.getId(), comment));
-                                    break;
-                                case 2: // 댓글 수정
-                                    commentsDAO.commentModify();
-                                    break;
-                                case 3: // 댓글 보기
-                                    commentsDAO.printCommentsByPostId(new CommentsDTO(Integer.toString(post), loginMember.getId()));
-                                    break;
-                                case 4: // 좋아요
-                                    System.out.println("좋아요를 누르시겠습니까? (1 : 누른다 / 2 : 안누른다 / 3 : 뒤로 가기) : ");
-                                    int input = sc.nextInt();
-                                    if (input == 1) { // 좋아요
-                                        likesDAO.addLike(new LikesDTO(Integer.toString(post), loginMember.getId()));
-                                    } else if (input == 2) { // 안누른다
-
-                                    } else if (input == 3) { // 뒤로 가기
-
-                                    } else {
-                                        System.out.println("올바른 숫자를 입력해주세요.");
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-
                         } else {
                             System.out.println("등록된 글이 없습니다.");
                         }
