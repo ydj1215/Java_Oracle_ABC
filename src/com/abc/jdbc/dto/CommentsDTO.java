@@ -2,29 +2,31 @@ package com.abc.jdbc.dto;
 
 public class CommentsDTO {
     private String id;
-    private String postId;
+    private String postsId;
     private String membersId;
     private String commentsText;
     private String commentsTime;
 
-    public CommentsDTO(String postId, String membersId, String commentsText) {
-        this.postId = postId;
+    public CommentsDTO() {
+    }
+
+    public CommentsDTO(String postsId, String membersId, String commentsText) {
+        this.postsId = postsId;
         this.membersId = membersId;
         this.commentsText = commentsText;
     }
 
-    public CommentsDTO() {
-
-    }
-
-    public CommentsDTO(String comment) {
+    public CommentsDTO(String postsId, String membersId) {
+        this.postsId = postsId;
+        this.membersId = membersId;
     }
 
     public String getId() {
         return id;
     }
-    public String getPostId() {
-        return postId;
+
+    public String getPostsId() {
+        return postsId;
     }
 
     public String getMembersId() {
@@ -43,8 +45,8 @@ public class CommentsDTO {
         this.id = id;
     }
 
-    public void setPostId(String postId) {
-        this.postId = postId;
+    public void setPostsId(String postsId) {
+        this.postsId = postsId;
     }
 
     public void setMembersId(String membersId) {

@@ -2,13 +2,13 @@ package com.abc.jdbc.dto;
 
 public class LikesDTO {
     private String id;
-    private String postId;
+    private String postsId;
     private String membersId;
 
     public  LikesDTO(){}
 
-    public LikesDTO(String postId, String membersId) {
-        this.postId = postId;
+    public LikesDTO(String postsId, String membersId) {
+        this.postsId = postsId;
         this.membersId = membersId;
     }
 
@@ -16,8 +16,8 @@ public class LikesDTO {
         return id;
     }
 
-    public String getPostId() {
-        return postId;
+    public String getPostsId() {
+        return postsId;
     }
 
     public String getMembersId() {
@@ -28,8 +28,8 @@ public class LikesDTO {
         this.id = id;
     }
 
-    public void setPostId(String postId) {
-        this.postId = postId;
+    public void setPostsId(String postId) {
+        this.postsId = postId;
     }
 
     public void setMembersId(String membersId) {

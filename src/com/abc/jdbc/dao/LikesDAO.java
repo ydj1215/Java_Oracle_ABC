@@ -23,10 +23,10 @@ public class LikesDAO {
 
     // 좋아요 추가
     public void addLike(LikesDTO likesDTO) {
-        String sql = "INSERT INTO LIKES (POSTID, MEMBERSID) VALUES (?, ?)";
+        String sql = "INSERT INTO LIKES (POSTSID, MEMBERSID) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, likesDTO.getPostId());
-            preparedStatement.setString(2, likesDTO.getId()); // 로그인한 회원의 ID 사용
+            preparedStatement.setString(1, likesDTO.getPostsId());
+            preparedStatement.setString(2, likesDTO.getMembersId());
             preparedStatement.executeUpdate();
             System.out.println("좋아요를 눌렀습니다.");
         } catch (Exception e) {

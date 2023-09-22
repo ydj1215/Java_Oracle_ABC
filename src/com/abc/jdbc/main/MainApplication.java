@@ -122,19 +122,23 @@ public class MainApplication {
                                 case 1: // 댓글 작성
                                     System.out.print("댓글을 입력해주세요 : ");
                                     String comment = sc.next();
-                                    commentsDAO.addComment(new CommentsDTO(Integer.toString(post), loginMember.getName(), comment));
+                                    commentsDAO.addComment(new CommentsDTO(Integer.toString(post), loginMember.getId(), comment));
                                     break;
                                 case 2: // 댓글 수정
+                                    commentsDAO.commentModify();
                                     break;
                                 case 3: // 댓글 보기
-                                    commentsDAO.printCommentsByPostId(new CommentsDTO());
+                                    commentsDAO.printCommentsByPostId(new CommentsDTO(Integer.toString(post), loginMember.getId()));
                                     break;
-                                case 4:
+                                case 4: // 좋아요
                                     System.out.println("좋아요를 누르시겠습니까? (1 : 누른다 / 2 : 안누른다 / 3 : 뒤로 가기) : ");
                                     int input = sc.nextInt();
                                     if (input == 1) { // 좋아요
+                                        likesDAO.addLike(new LikesDTO(Integer.toString(post), loginMember.getId()));
                                     } else if (input == 2) { // 안누른다
+
                                     } else if (input == 3) { // 뒤로 가기
+
                                     } else {
                                         System.out.println("올바른 숫자를 입력해주세요.");
                                     }
