@@ -3,6 +3,7 @@ package com.abc.jdbc.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +30,11 @@ public class LikesDAO {
             preparedStatement.setString(2, likesDTO.getMembersId());
             preparedStatement.executeUpdate();
             System.out.println("좋아요를 눌렀습니다.");
-        } catch (Exception e) {
+        } catch (SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException) {
+            System.out.println("이미 좋아요를 누르셨습니다!");
+        }
+        catch (Exception e){
             System.out.println("LikesDAO addLike Error! : " + e);
         }
     }
-
 }

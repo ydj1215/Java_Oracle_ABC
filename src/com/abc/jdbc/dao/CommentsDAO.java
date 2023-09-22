@@ -38,26 +38,27 @@ public class CommentsDAO {
 
     // 댓글 보기
     public List<CommentsDTO> printCommentsByPostId(CommentsDTO commentsDTO) {
-        List<CommentsDTO> comments = new ArrayList<>();
-        String sql = "SELECT ID, COMMENTSTEXT, COMMENTSTIME FROM COMMENTS WHERE ID = ?";
+        List<CommentsDTO> commentsList = new ArrayList<>();
+        String sql = "SELECT NAME, COMMENTSTEXT, COMMENTSTIME FROM COMMENTS WHERE ID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, commentsDTO.getPostsId());
             ResultSet resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()) {
                 CommentsDTO comment = new CommentsDTO(); // 각 줄 마다 새로운 댓글 객체를 생성
                 comment.setId(resultSet.getString("ID"));
+                comment.setName(resultSet.getString("NAME"));
                 comment.setCommentsText(resultSet.getString("COMMENTSTEXT"));
                 comment.setCommentsTime(String.valueOf(resultSet.getTimestamp("COMMENTSTIME")));
-                comments.add(comment);
+                commentsList.add(comment);
             }
 
-            if (comments.isEmpty()) {
+            if (commentsList.isEmpty()) {
                 System.out.println(commentsDTO.getPostsId() + "번 게시글에 댓글이 없습니다.");
             } else {
                 System.out.println("게시글 #" + commentsDTO.getPostsId() + "의 댓글 목록:");
-                for (CommentsDTO comment : comments) {
-                    System.out.println("댓글 ID: " + comment.getId());
+                for (CommentsDTO comment : commentsList) {
+                    System.out.println("댓글 번호 : " + comment.getId());
+                    System.out.println("댓글 작성자 : " + comment.getName());
                     System.out.println("댓글 내용: " + comment.getCommentsText());
                     System.out.println("댓글 시간: " + comment.getCommentsTime());
                     System.out.println("-------------");
@@ -66,7 +67,7 @@ public class CommentsDAO {
         } catch (Exception e) {
             System.out.println("CommentsDAO printCommentsByPostId Error! : " + e);
         }
-        return comments;
+        return commentsList;
     }
 
     // 댓글 수정

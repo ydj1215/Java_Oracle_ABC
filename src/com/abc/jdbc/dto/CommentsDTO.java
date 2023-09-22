@@ -6,14 +6,17 @@ public class CommentsDTO {
     private String membersId;
     private String commentsText;
     private String commentsTime;
+    private String name;
 
     public CommentsDTO() {
     }
 
-    public CommentsDTO(String postsId, String membersId, String commentsText) {
+
+    public CommentsDTO(String postsId, String membersId, String commentsText, String name) {
         this.postsId = postsId;
         this.membersId = membersId;
         this.commentsText = commentsText;
+        this.name = name;
     }
 
     public CommentsDTO(String postsId, String membersId) {
@@ -59,5 +62,13 @@ public class CommentsDTO {
 
     public void setCommentsTime(String commentsTime) {
         this.commentsTime = commentsTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
