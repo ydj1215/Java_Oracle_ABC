@@ -118,7 +118,7 @@ public class MainApplication {
                                     System.out.println("글 제목 : " + e.getTitle());
                                     System.out.println("글 작성 시간 : " + e.getCurrentTime());
                                     System.out.println("글 내용 : " + e.getContent());
-                                    System.out.println("작성자 : " + e.getMembersID());
+                                    System.out.println("작성자 : " + e.getName());
                                     System.out.println("추천수 : " + e.getLikesCounts());
                                     System.out.println("================================================");
                                     System.out.println();

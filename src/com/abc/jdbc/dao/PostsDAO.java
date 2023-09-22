@@ -41,6 +41,7 @@ public class PostsDAO {
                 post.setCurrentTime(String.valueOf(resultSet.getTimestamp("CURRENTTIME")));
                 post.setContent(resultSet.getString("CONTENT"));
                 post.setMembersID(String.valueOf(resultSet.getInt("MEMBERSID")));
+                //post.setName(String.valueOf(resultSet.getInt("NAME")));
                 post.setLikesCounts(String.valueOf(resultSet.getInt("LIKESCOUNTS")));
                 postsList.add(post);
             }
@@ -61,6 +62,7 @@ public class PostsDAO {
                 PostsDTO post = new PostsDTO();
                 post.setId(resultSet.getString("ID"));
                 post.setTitle(resultSet.getString("TITLE"));
+                post.setName(resultSet.getString("NAME"));
                 post.setCurrentTime(String.valueOf(resultSet.getTimestamp("CURRENTTIME")));
                 post.setContent(resultSet.getString("CONTENT"));
                 post.setMembersID(String.valueOf(resultSet.getInt("MEMBERSID")));

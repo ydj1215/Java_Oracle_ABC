@@ -7,6 +7,7 @@ public class PostsDTO {
     private String content;
     private String membersID;
     private String likesCounts;
+    private String name;
 
     public PostsDTO(){
 
@@ -16,6 +17,14 @@ public class PostsDTO {
         this.title = title;
         this.content = content;
         this.membersID = membersID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {
