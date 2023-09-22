@@ -37,15 +37,16 @@ public class CommentsDAO {
     }
 
     // 댓글 보기
-    public void printCommentsByPostId(CommentsDTO commentsDTO) {
+    public List<CommentsDTO> getCommentsByPostId(CommentsDTO commentsDTO) {
         List<CommentsDTO> commentsList = new ArrayList<>();
-        String sql = "SELECT POSTSID, NAME, COMMENTSTEXT, COMMENTSTIME FROM COMMENTS WHERE POSTSID = ?";
+        String sql = "SELECT ID, NAME, COMMENTSTEXT, COMMENTSTIME FROM COMMENTS WHERE POSTSID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, commentsDTO.getPostsId());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 CommentsDTO comment = new CommentsDTO();
-                comment.setId(resultSet.getString("POSTSID")); // 댓글의 ID를 POSTSID로 설정
+                // 데이터베이스에서 생성된 고유 식별자(ID)를 가져와서 설정
+                comment.setId(resultSet.getString("ID"));
                 comment.setName(resultSet.getString("NAME"));
                 comment.setCommentsText(resultSet.getString("COMMENTSTEXT"));
                 comment.setCommentsTime(String.valueOf(resultSet.getTimestamp("COMMENTSTIME")));
@@ -57,7 +58,7 @@ public class CommentsDAO {
             } else {
                 System.out.println("<" + commentsDTO.getPostsId() + "번 게시글의 댓글 목록>");
                 for (CommentsDTO comment : commentsList) {
-                    System.out.println("댓글 번호 : " + comment.getId()); // 댓글의 ID 출력
+                    System.out.println("댓글 번호 : " + comment.getId()); // 댓글의 고유 식별자 출력
                     System.out.println("댓글 작성자 : " + comment.getName());
                     System.out.println("댓글 내용: " + comment.getCommentsText());
                     System.out.println("댓글 시간: " + comment.getCommentsTime());
@@ -69,7 +70,9 @@ public class CommentsDAO {
         } catch (Exception e) {
             System.out.println("오류 발생: " + e.getMessage());
         }
+        return commentsList;
     }
+
 
 
     // 댓글 수정

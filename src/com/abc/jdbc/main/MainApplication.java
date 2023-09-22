@@ -106,6 +106,9 @@ public class MainApplication {
                             while (isPost) {
                                 List<PostsDTO> enter = postsDAO.enterPost(post);
                                 System.out.println(post + "번 글에 들어 왔습니다.");
+                                System.out.println(".A__A    ✨\uD83C\uDF82✨    A__A\n" +
+                                        "( •⩊•)   _______   (•⩊• )\n" +
+                                        "(>\uD83C\uDF70>)   |           |   (<\uD83D\uDD2A<)\n");
                                 if(enter.isEmpty()){
                                     System.out.println(post+"번 게시글은 존재하지 않습니다.");
                                     break;
@@ -133,7 +136,7 @@ public class MainApplication {
                                         commentsDAO.commentModify();
                                         break;
                                     case 3: // 댓글 보기
-                                        commentsDAO.printCommentsByPostId(new CommentsDTO(Integer.toString(post), loginMember.getId()));
+                                        commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(post), loginMember.getId()));
                                         break;
                                     case 4: // 좋아요
                                         likesDAO.addLike(new LikesDTO(Integer.toString(post), loginMember.getId()));
