@@ -161,6 +161,9 @@ public class MainApplication {
                     case 3:
                         loginMember = null; // 로그아웃
                         break;
+                    case 4: // 회원 탈퇴
+                        membersDAO.deleteMember(loginMember);
+                        break;
                     default:
                         System.out.println("올바른 숫자를 입력해주세요.");
                         break;

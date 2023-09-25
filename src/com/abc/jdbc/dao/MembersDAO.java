@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.MembersDTO;
+import com.abc.jdbc.util.Print;
 
 // DAO : Data Access Object, 데이터베이스에 접근해 데이터를 조회하거나 수정하기 위해 사용
 // DML(select, insert, delete, update...)와 유사한 기능
@@ -88,6 +89,26 @@ public class MembersDAO {
         }
         return membersList;
     }
+
+
+    //회원 탈퇴
+    public void deleteMember(MembersDTO membersDTO) {
+        String id = Print.deleteMemberCheckID();
+        String password = Print.deleteMemberCheckPassword();
+        membersDTO.setInputId(id);
+        membersDTO.setPassword(password);
+        String sql = "DELETE FROM MEMBERS WHERE INPUTID = ? and PASSWORD = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, membersDTO.getInputId());
+            preparedStatement.setString(2, membersDTO.getPassword());
+            preparedStatement.executeUpdate();
+            System.out.println("회원탈퇴 완료");
+        } catch (Exception e) {
+            Print.membersDAODeleteError(e);
+        }
+    }
+
+
 
     // 연결 해제
     public void close() {
