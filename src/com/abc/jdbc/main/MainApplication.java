@@ -102,18 +102,18 @@ public class MainApplication {
 
                             // 댓글 작성 및 좋아요 누르기 위해 글 선택
                             System.out.print("몇번 글에 들어갈까요? : ");
-                            int post = sc.nextInt();
+                            int selectedPostID = sc.nextInt();
                             boolean isPost = true;
                             while (isPost) {
-                                List<PostsDTO> enter = postsDAO.enterPost(post);
-                                System.out.println(post + "번 글에 들어 왔습니다.");
+                                List<PostsDTO> enter = postsDAO.enterPost(selectedPostID);
+                                System.out.println(selectedPostID + "번 글에 들어 왔습니다.");
                                 PrintMenu.postLogo();
                                 if(enter.isEmpty()){
-                                    System.out.println(post+"번 게시글은 존재하지 않습니다.");
+                                    System.out.println(selectedPostID+"번 게시글은 존재하지 않습니다.");
                                     break;
                                 }
                                 for (PostsDTO e : enter) { // 향상된 for 문
-                                    System.out.println("<" + post+ "번 글>");
+                                    System.out.println("<" + selectedPostID+ "번 글>");
                                     System.out.println("글 번호 : " + e.getId());
                                     System.out.println("글 제목 : " + e.getTitle());
                                     System.out.println("글 작성 시간 : " + e.getCurrentTime());
@@ -123,33 +123,35 @@ public class MainApplication {
                                     System.out.println("================================================");
                                     System.out.println();
                                 }
-                                System.out.print("[1] 댓글 작성, [2] 댓글 수정, [3] 댓글 보기, [4] 댓글 삭제, [5] 좋아요, [6] 나가기: ");
+                                System.out.print("[1] 댓글 작성, [2] 댓글 수정, [3] 댓글 보기, [4] 댓글 삭제, [5] 좋아요, [6] 글 수정하기, [7] 나가기: ");
                                 int action = sc.nextInt();
                                 switch (action) {
                                     case 1: // 댓글 작성
                                         System.out.print("댓글을 입력해주세요 : ");
                                         String comment = sc.next();
-                                        commentsDAO.addComment(new CommentsDTO(Integer.toString(post), loginMember.getId(), comment, loginMember.getName()));
+                                        commentsDAO.addComment(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId(), comment, loginMember.getName()));
                                         break;
                                     case 2: // 댓글 수정
                                         commentsDAO.commentModify();
                                         break;
                                     case 3: // 댓글 보기
-                                        commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(post), loginMember.getId()));
+                                        commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId()));
                                         break;
                                     case 4: // 댓글 삭제
                                         commentsDAO.commentDelete(new CommentsDTO());
                                         break;
                                     case 5: // 좋아요
-                                        likesDAO.addLike(new LikesDTO(Integer.toString(post), loginMember.getId()));
+                                        likesDAO.addLike(new LikesDTO(Integer.toString(selectedPostID), loginMember.getId()));
                                         break;
-                                    case 6: // 나가기
+                                    case 6: // 글 수정하기
+                                        postsDAO.modifyPost(new PostsDTO(), selectedPostID ,loginMember.getId());
+                                        break;
+                                    case 7: // 나가기
                                         isPost = false;
                                         break;
                                     default:
                                         break;
                                 }
-
                             }
                         } else {
                             System.out.println("등록된 글이 없습니다.");
