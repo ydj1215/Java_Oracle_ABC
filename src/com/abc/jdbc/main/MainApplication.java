@@ -123,7 +123,7 @@ public class MainApplication {
                                     System.out.println("================================================");
                                     System.out.println();
                                 }
-                                System.out.print("[1]댓글 작성 [2]댓글 수정 [3]댓글 보기 [4] 좋아요 [5] 나가기 : ");
+                                System.out.print("[1] 게시글 수정, [2] 게시글 삭제, [3] 댓글 작성, [4] 댓글 수정, [5] 댓글 보기, [6] 댓글 삭제, [7] 좋아요, [8] 나가기 : ");
                                 int action = sc.nextInt();
                                 switch (action) {
                                     case 1: // 댓글 작성
@@ -137,10 +137,13 @@ public class MainApplication {
                                     case 3: // 댓글 보기
                                         commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(post), loginMember.getId()));
                                         break;
-                                    case 4: // 좋아요
+                                    case 4: // 댓글 삭제
+                                        
+                                        break;
+                                    case 5: // 좋아요
                                         likesDAO.addLike(new LikesDTO(Integer.toString(post), loginMember.getId()));
                                         break;
-                                    case 5:
+                                    case 6: // 나가기
                                         isPost = false;
                                         break;
                                     default:
