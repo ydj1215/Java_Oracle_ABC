@@ -10,8 +10,7 @@ import java.util.Scanner;
 
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.CommentsDTO;
-import com.abc.jdbc.util.PrintMenu;
-
+import com.abc.jdbc.util.Print;
 
 public class CommentsDAO {
     // 연결
@@ -46,7 +45,6 @@ public class CommentsDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 CommentsDTO comment = new CommentsDTO();
-                // 데이터베이스에서 생성된 고유 식별자(ID)를 가져와서 설정
                 comment.setId(resultSet.getString("ID"));
                 comment.setName(resultSet.getString("NAME"));
                 comment.setCommentsText(resultSet.getString("COMMENTSTEXT"));
@@ -58,9 +56,9 @@ public class CommentsDAO {
                 System.out.println(commentsDTO.getPostsId() + "번 게시글에 댓글이 없습니다.");
             } else {
                 System.out.println("<" + commentsDTO.getPostsId() + "번 게시글의 댓글 목록>");
-                PrintMenu.commentLogo();
+                Print.commentLogo();
                 for (CommentsDTO comment : commentsList) {
-                    System.out.println("댓글 번호 : " + comment.getId()); // 댓글의 고유 식별자 출력
+                    System.out.println("댓글 번호 : " + comment.getId());
                     System.out.println("댓글 작성자 : " + comment.getName());
                     System.out.println("댓글 내용: " + comment.getCommentsText());
                     System.out.println("댓글 시간: " + comment.getCommentsTime());
@@ -104,17 +102,30 @@ public class CommentsDAO {
             int id =  sc.nextInt();
             commentsDTO.setId(String.valueOf(id));
             preparedStatement.setString(1, commentsDTO.getId());
-            int rowsAffected = preparedStatement.executeUpdate(); // 실행된 행의 수를 반환
+            int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected == 0) {
-                // 삭제된 행이 없는 경우
                 System.out.println("해당 번호의 댓글이 존재하지 않습니다.");
             } else {
-                // 삭제 작업이 성공적으로 수행된 경우
                 System.out.println("댓글이 성공적으로 삭제되었습니다.");
             }
-            preparedStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println("CommentDAO commentDelete : " + e);
+        }
+    }
+
+    // 출력문을 호출하는 메서드 추가
+    public void printComments(List<CommentsDTO> commentsList) {
+        if (commentsList.isEmpty()) {
+            System.out.println("댓글이 없습니다.");
+        } else {
+            System.out.println("<댓글 목록>");
+            for (CommentsDTO comment : commentsList) {
+                System.out.println("댓글 번호 : " + comment.getId());
+                System.out.println("댓글 작성자 : " + comment.getName());
+                System.out.println("댓글 내용: " + comment.getCommentsText());
+                System.out.println("댓글 시간: " + comment.getCommentsTime());
+                System.out.println();
+            }
         }
     }
 
@@ -129,3 +140,4 @@ public class CommentsDAO {
         }
     }
 }
+

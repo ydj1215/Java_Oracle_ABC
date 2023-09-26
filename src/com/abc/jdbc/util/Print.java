@@ -11,6 +11,49 @@ public class Print {
 
     static Scanner sc = new Scanner(System.in);
 
+    static public void ABCLogo() {
+//        System.out.println(".　　　 ヘ　 ヘ\n" +
+//                "　　　/　＼/　＼\n" +
+//                "　　／　　　　　ヽ\n" +
+//                "　 /　　ㅇ　　 ㅇ　|    █████╗ ██████╗  ██████╗\n" +
+//                "　｜　∪　/￣￣T　|    ██╔══██╗██╔══██╗██╔════╝\n" +
+//                "　｜∪　 ｜　　|　|     ███████║██████╔╝██║     \n" +
+//                "　 ＼　　｜＿　| ノ     ██╔══██║██╔══██╗██║   \n" +
+//                "　 ／　ヽ｜　ヽ|、      ██║  ██║██████╔╝╚██████╗\n" +
+//                "　(　　 |｜　 ||｜        ╚═╝  ╚═╝╚═════╝  ╚═════╝\n" +
+//                "　|　　 ヽ二二ノ｜\n" +
+//                "　|　 L　　　　｣｜\n" +
+//                "　ヽ＿ﾉ　　　 (_/\n" +
+//                "　　｜　　/　 /\n" +
+//                "　　｜　 /　 /\n" +
+//                "　　(＿＿)＿_)");
+    }
+
+    static public void postLogo() {
+//        System.out.println(
+//                "================================================\n" +
+//                        "＼　　ヽ　　　　i　　|　　　　 /　　　/　\n" +
+//                        "　　　＼　\n" +
+//                        "!\n" +
+//                        "　　　　　　　　　　　　　　;' ':;,,　　　　 ,;'':;,\n" +
+//                        "　　　　　　　　　　　　　;'　　 ':;,.,.,.,.,.,,,;'　　';,\n" +
+//                        "　　ー　　　　　　　　 ,:'　　　　　　　　 　::::::::､\n" +
+//                        "　_＿　　　　　　　　,:' ／ 　 　　　　＼ 　　::::::::',\n" +
+//                        "　　　　　二　　　　:'　 ●　　　　　 ●　 　　 ::::::::i.\n" +
+//                        "　　￣　　　　　　　i　 '''　(__人_)　　'''' 　　 ::::::::::i\n" +
+//                        "　　　　-‐　　　　　 :　 　　　　　　　　　 　::::::::i\n" +
+//                        "　　　　　　　　　　　`:,､ 　　　　　 　 　 :::::::::: /\n" +
+//                        "　　　　／　　　　　　 ,:'　　　　　　　 : ::::::::::::｀:､\n" +
+//                        "　　　　　　　　　　　 ,:'　　　　　　　　 : : ::::::::::｀:､\n" +
+//                        "================================================");
+    }
+
+    static public void commentLogo() {
+//        System.out.println("░█▀▀░█▀█░█▄█░█▄█░█▀▀░█▀█░▀█▀░█▀▀░░░█░░░▀█▀░█▀▀░▀█▀\n" +
+//                "░█░░░█░█░█░█░█░█░█▀▀░█░█░░█░░▀▀█░░░█░░░░█░░▀▀█░░█░\n" +
+//                "░▀▀▀░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░▀░░▀░░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░░▀░");
+    }
+
     // Main
     public static void exit() {
         System.out.println("프로그램을 종료합니다.");
@@ -21,14 +64,10 @@ public class Print {
         System.out.println("DatabaseConnection Error! : " + e);
     }
 
-    // Menu
-    public static void loginMenu() { System.out.print("[1] 회원가입 [2] 로그인 [3] 종료 : "); }
 
-    public static void boardMenu() {
-        System.out.print("[1] 글쓰기, [2] 글 목록보기, [3] 로그아웃, [4] 회원 탈퇴: ");
+    public static void logout() {
+        System.out.println("로그아웃 되었습니다.");
     }
-
-    public static void logout() { System.out.println("로그아웃 되었습니다.");}
 
     // Option
     public static void optionError() {
@@ -53,13 +92,13 @@ public class Print {
         System.out.println("등록된 회원이 없습니다.");
     }
 
-    public static String deleteMemberCheckID(){
+    public static String deleteMemberCheckID() {
         System.out.print("아이디를 다시 한번 입력해주세요 : ");
         String id = sc.nextLine();
         return id;
     }
 
-    public static String deleteMemberCheckPassword(){
+    public static String deleteMemberCheckPassword() {
         System.out.print("비밀번호를 다시 한번 입력해주세요 : ");
         String password = sc.nextLine();
         return password;
@@ -81,11 +120,16 @@ public class Print {
         System.out.println("MembersDAO login Error! : " + e);
     }
 
-    public static void memberDAOGetAllMembersError(Exception e) { System.out.println("MemberDAO getAllMembers Error! : " + e); }
+    public static void memberDAOGetAllMembersError(Exception e) {
+        System.out.println("MemberDAO getAllMembers Error! : " + e);
+    }
 
     public static void membersDAOCloseError(Exception e) {
         System.out.println("MembersDAO close Error! : " + e);
-    };
+    }
+
+    ;
+
     public static void membersDAODeleteError(Exception e) {
         System.out.println("MembersDAO deleteMember Error! : " + e);
     }
@@ -173,7 +217,9 @@ public class Print {
         System.out.println("CommentsDAO addComment Error! : " + e);
     }
 
-    public static void commentDAOGetCommentsByPostIdSqlError(SQLException e) { System.out.println("SQL 오류 발생: " + e.getMessage()); }
+    public static void commentDAOGetCommentsByPostIdSqlError(SQLException e) {
+        System.out.println("SQL 오류 발생: " + e.getMessage());
+    }
 
     public static void commentDAOGetCommentsByPostIdError(Exception e) {
         System.out.println("오류 발생: " + e.getMessage());
@@ -202,9 +248,6 @@ public class Print {
     }
 
 
-
-
-
     // ================================================================================
     // path : com/abc/jdbc/util/user/IdPassword.java , com/abc/jdbc/util/user/IdPwName.java
     public static void inputId() {
@@ -223,9 +266,17 @@ public class Print {
 
     // ================================================================================
     // path : com/abc/jdbc/util/user/createPost.java
-    public static void inputTitle() { System.out.print("글 제목 입력: "); }
-    public static void inputContent() { System.out.print("글 내용 입력: "); }
-    public static void successCreatePost() { System.out.println("글이 작성되었습니다."); }
+    public static void inputTitle() {
+        System.out.print("글 제목 입력: ");
+    }
+
+    public static void inputContent() {
+        System.out.print("글 내용 입력: ");
+    }
+
+    public static void successCreatePost() {
+        System.out.println("글이 작성되었습니다.");
+    }
 
     // ================================================================================
     // path : com/abc/jdbc/util/user/PostList.java
@@ -240,15 +291,25 @@ public class Print {
 
     // ================================================================================
     // path : com/abc/jdbc/util/user/EnterPost.java
-    public static void whichEnterPost() { System.out.print("몇번 글에 들어갈까요? : "); }
+    public static void whichEnterPost() {
+        System.out.print("몇번 글에 들어갈까요? : ");
+    }
+
     public static void enteredPost(int post) {
         System.out.println(post + "번 글에 들어 왔습니다.");
         System.out.println(".A__A    ✨\uD83C\uDF82✨    A__A\n" +
                 "( •⩊•)   _______   (•⩊• )\n" +
                 "(>\uD83C\uDF70>)   |           |   (<\uD83D\uDD2A<)\n");
     }
-    public static void emptyPost(int post) { System.out.println(post + "번 게시글은 존재하지 않습니다."); }
-    public static void postNumber(int post) { System.out.println("<" + post + "번 글>"); }
+
+    public static void emptyPost(int post) {
+        System.out.println(post + "번 게시글은 존재하지 않습니다.");
+    }
+
+    public static void postNumber(int post) {
+        System.out.println("<" + post + "번 글>");
+    }
+
     public static void viewPostDTO(PostsDTO e) {
         System.out.println("글 번호 : " + e.getId());
         System.out.println("글 제목 : " + e.getTitle());

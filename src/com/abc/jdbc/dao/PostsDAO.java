@@ -87,6 +87,20 @@ public class PostsDAO {
     }
 
     // 게시글 삭제
+    public void deletePost(int postID, String memberID) {
+        String sql = "DELETE FROM POSTS WHERE ID = ? AND MEMBERSID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, postID); // 현재 선택된 게시글
+            preparedStatement.setString(2, memberID); // 현재 로그인한 회원
+            int rowsDeleted = preparedStatement.executeUpdate();
+            //삭제된 행의 개수를 출력
+            System.out.println("삭제된 게시글 수: " + rowsDeleted);
+        } catch (Exception e) {
+            //SQL 예외 발생 시 오류 메시지 출력
+            System.out.println("PostsDAO deletePost : " + e);
+        }
+    }
+
 
     // 모든 게시글 조회
     public List<PostsDTO> getAllPosts() {
