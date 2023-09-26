@@ -126,7 +126,7 @@ public class PostsDAO {
     // 모든 게시글 조회
     public List<PostsDTO> getAllPosts() {
         List<PostsDTO> postsList = new ArrayList<>();
-        String sql = "SELECT * FROM POSTS ORDER BY CURRENTTIME DESC";
+        String sql = "SELECT * FROM POSTS ORDER BY CURRENTTIME ASC";
         //String sql = "SELECT * FROM POSTS";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();

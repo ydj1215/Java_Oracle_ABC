@@ -15,8 +15,14 @@ import com.abc.jdbc.dto.PostsDTO;
 import com.abc.jdbc.dao.CommentsDAO;
 import com.abc.jdbc.dto.CommentsDTO;
 
+
+// 터미널 실행
+// cd D:\dev\work_java\Java_Oracle_Mini\out\artifacts\Java_Oracle_Mini_jar
+// java -jar Java_Oracle_Mini.jar
+
 public class MainApplication {
     public static void main(String[] args) throws InterruptedException, IOException {
+        clearScreen();
         Scanner sc = new Scanner(System.in);
         MembersDAO membersDAO = new MembersDAO();
         MembersDTO loginMember = null; // 현재 로그인한 사용자
@@ -127,6 +133,23 @@ public class MainApplication {
                                         break;
                                     case 3: // 댓글 보기
                                         commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId()));
+                                        // 사용자가 'Enter' 입력할때까지 sleep() 상태를 유지
+                                        Thread sleepThread = new Thread(() -> {
+                                            try {
+                                                while (true) {
+                                                    Thread.sleep(1000); // 1초 동안 슬립
+                                                }
+                                            } catch (InterruptedException e) {
+                                                System.out.println("슬립이 해제되었습니다.");
+                                            }
+                                        });
+                                        // 스레드 시작
+                                        sleepThread.start();
+                                        // 사용자의 Enter 키 입력을 기다림
+                                        Scanner scanner = new Scanner(System.in);
+                                        scanner.nextLine(); // Enter 키 입력 대기
+                                        // 사용자가 Enter 키를 누르면 슬립 스레드를 중단
+                                        sleepThread.interrupt();
                                         break;
                                     case 4: // 댓글 작성
                                         System.out.print("댓글을 입력해주세요 : ");

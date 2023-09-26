@@ -39,6 +39,7 @@ public class CommentsDAO {
                 // InterruptedException 처리
                 e.printStackTrace();
             }
+            MainApplication.clearScreen();
             System.out.println("로딩중...");
             try {
                 Thread.sleep(3000);
