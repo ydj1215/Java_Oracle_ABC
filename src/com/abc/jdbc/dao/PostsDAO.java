@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.abc.jdbc.main.MainApplication;
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.PostsDTO;
 
@@ -27,6 +28,7 @@ public class PostsDAO {
             preparedStatement.setString(2, postsDTO.getContent());
             preparedStatement.setString(3, postsDTO.getMembersID());
             preparedStatement.executeUpdate();
+            System.out.println("새로운 게시글이 작성되었습니다.");
         } catch (Exception e) {
             System.out.println("PostsDAO addPost Error! : " + e);
         }
@@ -42,8 +44,8 @@ public class PostsDAO {
                 postsDTO.setId(String.valueOf(postID)); // 현재 선택된 게시글
                 postsDTO.setMembersID(memberID); // 현재 로그인한 회원
                 System.out.print("새로운 게시글 제목을 입력해주세요 : ");
-                String newTitle = sc.next();
                 sc.nextLine();
+                String newTitle = sc.nextLine();
                 postsDTO.setTitle(newTitle);
                 preparedStatement.setString(1, postsDTO.getTitle());
                 preparedStatement.setString(2, postsDTO.getId());
@@ -53,7 +55,7 @@ public class PostsDAO {
                 if (rowsUpdated > 0) {
                     System.out.println("게시글 제목이 성공적으로 수정되었습니다.");
                 } else {
-                    System.out.println("게시글 제목 수정에 실패했습니다.");
+                    System.out.println("게시글 제목 수정에 실패했습니다.\n작성자를 확인해주세요.\n본인이 작성하신 글만을 삭제할 수 있습니다.");
                 }
             } catch (Exception e) {
                 System.out.println("PostsDAO modifyTitle: " + e);
@@ -64,8 +66,8 @@ public class PostsDAO {
                 postsDTO.setId(String.valueOf(postID)); // 현재 선택된 게시글
                 postsDTO.setMembersID(memberID); // 현재 로그인한 회원
                 System.out.print("새로운 게시글 내용을 입력해주세요 : ");
-                String newContent = sc.next();
                 sc.nextLine();
+                String newContent = sc.nextLine();
                 postsDTO.setContent(newContent);
                 preparedStatement.setString(1, postsDTO.getContent());
                 preparedStatement.setString(2, postsDTO.getId());
@@ -94,9 +96,28 @@ public class PostsDAO {
             preparedStatement.setString(2, memberID); // 현재 로그인한 회원
             int rowsDeleted = preparedStatement.executeUpdate();
             //삭제된 행의 개수를 출력
-            System.out.println("삭제된 게시글 수: " + rowsDeleted);
+            if(rowsDeleted == 0){
+                System.out.println("게시글이 삭제되지 않았습니다.\n본인이 작성하신 게시글이 맞는지 확인해주세요.\n");
+            }
+            else{
+                System.out.println("게시글 삭제에 성공하셨습니다");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // InterruptedException 처리
+                    e.printStackTrace();
+                }
+                MainApplication.clearScreen();
+                System.out.println("로딩중...");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    // InterruptedException 처리
+                    e.printStackTrace();
+                }
+                MainApplication.clearScreen();
+            }
         } catch (Exception e) {
-            //SQL 예외 발생 시 오류 메시지 출력
             System.out.println("PostsDAO deletePost : " + e);
         }
     }
@@ -105,7 +126,8 @@ public class PostsDAO {
     // 모든 게시글 조회
     public List<PostsDTO> getAllPosts() {
         List<PostsDTO> postsList = new ArrayList<>();
-        String sql = "SELECT * FROM POSTS";
+        String sql = "SELECT * FROM POSTS ORDER BY CURRENTTIME DESC";
+        //String sql = "SELECT * FROM POSTS";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -147,16 +169,5 @@ public class PostsDAO {
             System.out.println("PostsDAO enterPost Error! : " + e);
         }
         return postsList;
-    }
-
-    // 연결 해제
-    public void close() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (Exception e) {
-            System.out.println("PostsDAO close Error! : " + e);
-        }
     }
 }

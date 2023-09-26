@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.abc.jdbc.main.MainApplication;
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.MembersDTO;
-import com.abc.jdbc.util.Print;
 
 // DAO : Data Access Object, 데이터베이스에 접근해 데이터를 조회하거나 수정하기 위해 사용
 // DML(select, insert, delete, update...)와 유사한 기능
@@ -18,9 +18,11 @@ import com.abc.jdbc.util.Print;
 public class MembersDAO {
     // 연결
     private final Connection connection;
+
     public MembersDAO() {
         connection = DatabaseConnection.getConnection();
     }
+
     Scanner sc = new Scanner(System.in);
 
     //로그인
@@ -44,7 +46,23 @@ public class MembersDAO {
                 loggedInMember.setInputId(resultSet.getString("INPUTID"));
                 loggedInMember.setPassword(resultSet.getString("PASSWORD"));
                 loggedInMember.setName(resultSet.getString("NAME"));
+                MainApplication.clearScreen();
                 System.out.println("로그인에 성공하셨습니다.");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // InterruptedException 처리
+                    e.printStackTrace();
+                }
+                MainApplication.clearScreen();
+                System.out.println("로딩중...");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    // InterruptedException 처리
+                    e.printStackTrace();
+                }
+                MainApplication.clearScreen();
             } else {
                 // 만약 ResultSet에서 다음 행이 없다면,
                 // 로그인에 실패하고 loggedInMember는 여전히 null이다.
@@ -73,6 +91,7 @@ public class MembersDAO {
             preparedStatement.setString(2, membersDTO.getPassword());
             preparedStatement.setString(3, membersDTO.getName());
             preparedStatement.executeUpdate();
+            MainApplication.clearScreen();
             System.out.println("회원가입이 완료되었습니다.");
         } catch (Exception e) {
             System.out.println("MembersDAO addMember Error! : " + e);
@@ -81,8 +100,10 @@ public class MembersDAO {
 
     //회원 탈퇴
     public void deleteMember(MembersDTO membersDTO) {
-        String id = Print.deleteMemberCheckID();
-        String password = Print.deleteMemberCheckPassword();
+        System.out.print("아이디를 다시 한번 입력해주세요 : ");
+        String id = sc.nextLine();
+        System.out.print("비밀번호를 다시 한번 입력해주세요 : ");
+        String password = sc.nextLine();
         membersDTO.setInputId(id);
         membersDTO.setPassword(password);
         String sql = "DELETE FROM MEMBERS WHERE INPUTID = ? and PASSWORD = ?";
@@ -90,20 +111,10 @@ public class MembersDAO {
             preparedStatement.setString(1, membersDTO.getInputId());
             preparedStatement.setString(2, membersDTO.getPassword());
             preparedStatement.executeUpdate();
+            MainApplication.clearScreen();
             System.out.println("회원탈퇴 완료");
         } catch (Exception e) {
-            Print.membersDAODeleteError(e);
-        }
-    }
-
-    // 연결 해제
-    public void close() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (Exception e) {
-            System.out.println("MembersDAO close Error! : " + e);
+            System.out.println("MembersDAO deleteMember Error! : " + e);
         }
     }
 }

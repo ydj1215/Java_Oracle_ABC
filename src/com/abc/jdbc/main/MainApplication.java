@@ -1,6 +1,7 @@
 package com.abc.jdbc.main;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -24,7 +25,6 @@ public class MainApplication {
         LikesDAO likesDAO = new LikesDAO(membersDAO);
         CommentsDAO commentsDAO = new CommentsDAO();
 
-
         while (true) {
             if (loginMember == null) { // 첫 화면
                 printFirstMenu();
@@ -34,6 +34,7 @@ public class MainApplication {
             int choice = -1; // 초기값 설정
             try {
                 choice = sc.nextInt(); // 정수 입력 시 처리
+                clearScreen();
             } catch (InputMismatchException e) {
                 // switch-case문의 default에서 예외 처리를 하였으나,
                 // case * 이외의 숫자가 입력됐을 때의 예외는 처리가 되었으나,
@@ -48,13 +49,15 @@ public class MainApplication {
                         MembersDTO inputMember = new MembersDTO();
                         System.out.print("아이디 입력: ");
                         String inputId = sc.next();
+                        sc.nextLine(); // 버퍼 비우기
                         System.out.print("비밀번호 입력: ");
                         String password = sc.next();
                         // 새로운 회원 객체, 입력된 아이디와 비밀번호를 새롭게 생성된 회원 객체에 설정
                         inputMember.setInputId(inputId);
                         inputMember.setPassword(password);
                         loginMember = membersDAO.login(inputMember);
-                       break; // loginMember = null → 다시 첫화면으로
+                        clearScreen();
+                        break; // loginMember = null → 다시 첫화면으로
                     case 2: // 회원 가입
                         membersDAO.addMember(new MembersDTO());
                         break;
@@ -69,12 +72,13 @@ public class MainApplication {
                 switch (choice) {
                     case 1: // 게시글 작성
                         System.out.print("글 제목 입력: ");
-                        String title = sc.next();
+                        sc.nextLine(); // 버퍼 지우기
+                        String title = sc.nextLine();
                         System.out.print("글 내용 입력: ");
-                        String content = sc.next();
+                        String content = sc.nextLine();
                         PostsDTO myPostsDTO = new PostsDTO(title, content, loginMember.getId());
                         postsDAO.addPost(myPostsDTO);
-                        System.out.println("글이 작성되었습니다.");
+                        clearScreen();
                         break;
                     case 2: // 게시글 목록 출력
                         List<PostsDTO> postsList = postsDAO.getAllPosts(); // 모든 게시글의 정보를 리스트에 저장
@@ -83,19 +87,24 @@ public class MainApplication {
                             for (PostsDTO post : postsList) { // 향상된 for 문
                                 System.out.println("글 번호 : " + post.getId());
                                 System.out.println("글 제목 : " + post.getTitle());
+                                System.out.println("추천수 : " + post.getLikesCounts());
+                                System.out.println("작성 시간 : " + post.getCurrentTime());
                                 System.out.println("-".repeat(100));
                             }
                             // 댓글 작성 및 좋아요 누르기 위해 글 선택
                             System.out.print("몇번 게시글에 들어가시겠습니까? : ");
                             int selectedPostID = sc.nextInt();
+                            clearScreen();
                             boolean isPost = true;
                             while (isPost) {
                                 List<PostsDTO> enter = postsDAO.enterPost(selectedPostID);
+                                clearScreen();
                                 System.out.println(selectedPostID + "번 게시글에 들어왔습니다.");
                                 if (enter.isEmpty()) {
                                     System.out.println(selectedPostID + "번 게시글은 존재하지 않습니다.");
                                     break;
                                 }
+
                                 for (PostsDTO e : enter) { // 향상된 for 문으로 모든 게시글의 정보가 저장되있는 리스트 순회 출력
                                     System.out.println("<" + selectedPostID + "번 글>");
                                     System.out.println("글 번호 : " + e.getId());
@@ -106,8 +115,9 @@ public class MainApplication {
                                     System.out.println("추천수 : " + e.getLikesCounts());
                                     System.out.println("-".repeat(100));
                                 }
-                                System.out.print("[1] 글 수정\n[2] 글 삭제\n[3] 댓글 보기\n[4] 댓글 작성\n[5] 댓글 수정\n[6] 댓글 삭제\n[7] 좋아요, [8] 나가기 ");
+                                System.out.print("[1] 글 수정\n[2] 글 삭제\n[3] 댓글 보기\n[4] 댓글 작성\n[5] 댓글 수정\n[6] 댓글 삭제\n[7] 좋아요\n[8] 나가기\n입력: ");
                                 int action = sc.nextInt();
+                                clearScreen();
                                 switch (action) {
                                     case 1: // 글 수정
                                         postsDAO.modifyPost(new PostsDTO(), selectedPostID, loginMember.getId());
@@ -120,11 +130,12 @@ public class MainApplication {
                                         break;
                                     case 4: // 댓글 작성
                                         System.out.print("댓글을 입력해주세요 : ");
-                                        String comment = sc.next();
+                                        sc.nextLine();
+                                        String comment = sc.nextLine();
                                         commentsDAO.addComment(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId(), comment, loginMember.getName()));
                                         break;
                                     case 5: // 댓글 수정
-                                        commentsDAO.commentModify();
+                                        commentsDAO.commentModify(loginMember, selectedPostID);
                                         break;
                                     case 6: // 댓글 삭제
                                         commentsDAO.commentDelete(new CommentsDTO());
@@ -173,7 +184,8 @@ public class MainApplication {
         System.out.print("메뉴를 선택하세요 : ");
     }
 
-    public static void printSecondMenu() {
+    public static void printSecondMenu() throws IOException, InterruptedException {
+        clearScreen();
         System.out.println("<글 관리 프로그램>");
         System.out.println("[1] 글쓰기");
         System.out.println("[2] 글 목록보기");

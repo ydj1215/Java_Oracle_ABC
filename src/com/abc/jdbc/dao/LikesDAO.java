@@ -30,8 +30,21 @@ public class LikesDAO {
             preparedStatement.setString(2, likesDTO.getMembersId());
             preparedStatement.executeUpdate();
             System.out.println("좋아요를 눌렀습니다.");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // InterruptedException 처리
+                e.printStackTrace();
+            }
+            System.out.println("로딩중...");
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                // InterruptedException 처리
+                e.printStackTrace();
+            }
         } catch (SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException) {
-            System.out.println("이미 좋아요를 누르셨습니다!");
+            System.out.println("이미 좋아요를 누르셨습니다.\n한 개의 게시글에는 한 개의 좋아요만 누르실 수 있습니다.");
         }
         catch (Exception e){
             System.out.println("LikesDAO addLike Error! : " + e);
