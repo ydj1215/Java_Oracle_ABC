@@ -1,5 +1,6 @@
 package com.abc.jdbc.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,15 +33,8 @@ public class CommentsDAO {
             preparedStatement.setString(2, commentsDTO.getMembersId());
             preparedStatement.setString(3, commentsDTO.getCommentsText());
             preparedStatement.executeUpdate();
-            MainApplication.clearScreen();
             System.out.println("댓글을 작성했습니다.");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // InterruptedException 처리
-                e.printStackTrace();
-            }
-            MainApplication.clearScreen();
+            Animation.waitMoment();
             Animation.loading();
         } catch (Exception e) {
             System.out.println("CommentsDAO addComment Error! : " + e);
@@ -66,6 +60,7 @@ public class CommentsDAO {
             if (commentsList.isEmpty()) {
                 System.out.println(commentsDTO.getPostsId() + "번 게시글에 댓글이 없습니다.");
             } else {
+                System.out.println();
                 System.out.println("<" + commentsDTO.getPostsId() + "번 게시글의 댓글 목록>");
                 for (CommentsDTO comment : commentsList) {
                     System.out.println("댓글 번호 : " + comment.getId());
@@ -74,6 +69,7 @@ public class CommentsDAO {
                     System.out.println("댓글 시간: " + comment.getCommentsTime());
                     System.out.println();
                 }
+                Animation.waitMoment();
             }
         } catch (SQLException e) {
             System.out.println("SQL 오류 발생: " + e.getMessage());
@@ -93,6 +89,7 @@ public class CommentsDAO {
                 modCommentId = sc.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("올바른 숫자를 입력해주세요.\n해당 번호의 댓글은 존재하지 않습니다.");
+
                 return;
             }
             sc.nextLine(); // 버퍼 비우기
@@ -114,6 +111,7 @@ public class CommentsDAO {
             int commentPostId = getCommentPostId(modCommentId);
             if (commentPostId != postid) {
                 System.out.println("해당 게시글에는 해당 댓글이 존재하지 않습니다.");
+                Animation.waitMoment();
                 return;
             }
 
@@ -126,16 +124,13 @@ public class CommentsDAO {
 
             int rowsUpdated = preparedStatement.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("댓글이 성공적으로 수정되었습니다.");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
                 Animation.loading();
+                System.out.println("댓글이 성공적으로 수정되었습니다.");
+                Animation.waitMoment();
             } else {
+                Animation.loading();
                 System.out.println("댓글 수정에 실패했습니다.");
+                Animation.waitMoment();
             }
         } catch (Exception e) {
             System.out.println("CommentDAO commentModify: " + e);
@@ -199,14 +194,9 @@ public class CommentsDAO {
             if (rowsAffected == 0) {
                 System.out.println("해당 번호의 댓글이 존재하지 않습니다.");
             } else {
-                System.out.println("댓글이 성공적으로 삭제되었습니다.");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
                 Animation.loading();
+                System.out.println("댓글이 성공적으로 삭제되었습니다.");
+                Animation.waitMoment();
             }
         } catch (Exception e) {
             System.out.println("CommentDAO commentDelete : " + e);
@@ -214,9 +204,11 @@ public class CommentsDAO {
     }
 
     // 출력문을 호출하는 메서드 추가
-    public void printComments(List<CommentsDTO> commentsList) {
+    public void printComments(List<CommentsDTO> commentsList) throws IOException, InterruptedException {
         if (commentsList.isEmpty()) {
             System.out.println("댓글이 없습니다.");
+            Animation.waitMoment();
+
         } else {
             System.out.println("<댓글 목록>");
             for (CommentsDTO comment : commentsList) {

@@ -29,7 +29,9 @@ public class PostsDAO {
             preparedStatement.setString(2, postsDTO.getContent());
             preparedStatement.setString(3, postsDTO.getMembersID());
             preparedStatement.executeUpdate();
+            Animation.loading();
             System.out.println("새로운 게시글이 작성되었습니다.");
+            Animation.waitMoment();
         } catch (Exception e) {
             System.out.println("PostsDAO addPost Error! : " + e);
         }
@@ -54,9 +56,13 @@ public class PostsDAO {
                 preparedStatement.executeUpdate();
                 int rowsUpdated = preparedStatement.executeUpdate();
                 if (rowsUpdated > 0) {
+                    Animation.loading();
                     System.out.println("게시글 제목이 성공적으로 수정되었습니다.");
+                    Animation.waitMoment();
                 } else {
-                    System.out.println("게시글 제목 수정에 실패했습니다.\n작성자를 확인해주세요.\n본인이 작성하신 글만을 삭제할 수 있습니다.");
+                    Animation.loading();
+                    System.out.println("게시글 제목 수정에 실패했습니다.\n작성자를 확인해주세요.\n본인이 작성하신 글만을 수정할 수 있습니다.");
+                    Animation.waitMoment();
                 }
             } catch (Exception e) {
                 System.out.println("PostsDAO modifyTitle: " + e);
@@ -76,9 +82,13 @@ public class PostsDAO {
                 preparedStatement.executeUpdate();
                 int rowsUpdated = preparedStatement.executeUpdate();
                 if (rowsUpdated > 0) {
+                    Animation.loading();
                     System.out.println("게시글 내용이 성공적으로 수정되었습니다.");
+                    Animation.waitMoment();
                 } else {
-                    System.out.println("게시글 내용 수정에 실패했습니다.");
+                    Animation.loading();
+                    System.out.println("게시글 제목 내용 수정에 실패했습니다.\n작성자를 확인해주세요.\n본인이 작성하신 글만을 수정할 수 있습니다.");
+                    Animation.waitMoment();
                 }
             } catch (Exception e) {
                 System.out.println("PostsDAO modifyTitle: " + e);
@@ -97,26 +107,14 @@ public class PostsDAO {
             preparedStatement.setString(2, memberID); // 현재 로그인한 회원
             int rowsDeleted = preparedStatement.executeUpdate();
             //삭제된 행의 개수를 출력
-            if(rowsDeleted == 0){
-                System.out.println("게시글이 삭제되지 않았습니다.\n본인이 작성하신 게시글이 맞는지 확인해주세요.\n");
-            }
-            else{
-                System.out.println("게시글 삭제에 성공하셨습니다");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
-                MainApplication.clearScreen();
+            if (rowsDeleted == 0) {
                 Animation.loading();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
-                MainApplication.clearScreen();
+                System.out.println("게시글이 삭제되지 않았습니다.\n본인이 작성하신 게시글이 맞는지 확인해주세요.\n");
+                Animation.waitMoment();
+            } else {
+                Animation.loading();
+                System.out.println("게시글 삭제에 성공하셨습니다");
+                Animation.waitMoment();
             }
         } catch (Exception e) {
             System.out.println("PostsDAO deletePost : " + e);
@@ -147,6 +145,29 @@ public class PostsDAO {
         }
         return postsList;
     }
+
+
+    // 게시글의 작성자만 확인하는 함수
+    public String postAuthorName(int memberId, int postsId) {
+        String authorName = null; // 결과를 저장할 변수
+
+        String sql = "SELECT NAME FROM MEMBERS WHERE ID = (SELECT MEMBERSID FROM POSTS WHERE ID = ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, postsId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // 결과가 하나의 행만 반환되는 경우 (예: 이름 하나)
+            if (resultSet.next()) {
+                authorName = resultSet.getString("NAME");
+            }
+        } catch (Exception e) {
+            System.out.println("PostsDAO postAuthorName Error! : " + e);
+        }
+
+        // authorName에 결과가 없는 경우 "dd"를 반환하고, 결과가 있는 경우 결과값 반환
+        return (authorName != null) ? authorName : "회원 탈퇴";
+    }
+
 
     // 게시글 들어가기
     public List<PostsDTO> enterPost(int postId) {

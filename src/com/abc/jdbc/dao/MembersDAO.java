@@ -47,27 +47,17 @@ public class MembersDAO {
                 loggedInMember.setInputId(resultSet.getString("INPUTID"));
                 loggedInMember.setPassword(resultSet.getString("PASSWORD"));
                 loggedInMember.setName(resultSet.getString("NAME"));
-                MainApplication.clearScreen();
-                System.out.println("로그인에 성공하셨습니다.");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
-                MainApplication.clearScreen();
                 Animation.loading();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
+                System.out.println("로그인에 성공했습니다.");
+                Animation.waitMoment();
                 MainApplication.clearScreen();
             } else {
                 // 만약 ResultSet에서 다음 행이 없다면,
                 // 로그인에 실패하고 loggedInMember는 여전히 null이다.
+                Animation.loading();
                 System.out.println("로그인에 실패하셨습니다.");
+                Animation.waitMoment();
+
             }
         } catch (Exception e) {
             System.out.println("MembersDAO login Error! : " + e);
@@ -94,6 +84,7 @@ public class MembersDAO {
             preparedStatement.executeUpdate();
             MainApplication.clearScreen();
             System.out.println("회원가입이 완료되었습니다.");
+            Animation.waitMoment();
         } catch (Exception e) {
             System.out.println("MembersDAO addMember Error! : " + e);
         }
@@ -113,7 +104,9 @@ public class MembersDAO {
             preparedStatement.setString(2, membersDTO.getPassword());
             preparedStatement.executeUpdate();
             MainApplication.clearScreen();
-            System.out.println("회원탈퇴 완료");
+            Animation.loading();
+            System.out.println("회원 탈퇴가 완료되었습니다.");
+            Animation.waitMoment();
         } catch (Exception e) {
             System.out.println("MembersDAO deleteMember Error! : " + e);
         }
