@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.abc.jdbc.main.MainApplication;
+import com.abc.jdbc.util.Animation;
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.MembersDTO;
 
@@ -55,7 +56,7 @@ public class MembersDAO {
                     e.printStackTrace();
                 }
                 MainApplication.clearScreen();
-                System.out.println("로딩중...");
+                Animation.loading();
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {

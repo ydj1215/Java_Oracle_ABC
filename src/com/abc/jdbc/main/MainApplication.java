@@ -14,6 +14,8 @@ import com.abc.jdbc.dto.MembersDTO;
 import com.abc.jdbc.dto.PostsDTO;
 import com.abc.jdbc.dao.CommentsDAO;
 import com.abc.jdbc.dto.CommentsDTO;
+import com.abc.jdbc.util.Animation;
+import oracle.jdbc.driver.json.tree.JsonpObjectImpl;
 
 
 // 터미널 실행
@@ -22,6 +24,8 @@ import com.abc.jdbc.dto.CommentsDTO;
 
 public class MainApplication {
     public static void main(String[] args) throws InterruptedException, IOException {
+        clearScreen();
+        Animation.loading();
         clearScreen();
         Scanner sc = new Scanner(System.in);
         MembersDAO membersDAO = new MembersDAO();

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.abc.jdbc.dto.MembersDTO;
+import com.abc.jdbc.util.Animation;
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.LikesDTO;
 import com.abc.jdbc.dao.MembersDAO;
@@ -36,7 +37,7 @@ public class LikesDAO {
                 // InterruptedException 처리
                 e.printStackTrace();
             }
-            System.out.println("로딩중...");
+            Animation.loading();
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

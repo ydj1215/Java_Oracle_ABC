@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import com.abc.jdbc.dto.MembersDTO;
 import com.abc.jdbc.main.MainApplication;
+import com.abc.jdbc.util.Animation;
 import com.abc.jdbc.util.DatabaseConnection;
 import com.abc.jdbc.dto.CommentsDTO;
 
@@ -40,13 +41,7 @@ public class CommentsDAO {
                 e.printStackTrace();
             }
             MainApplication.clearScreen();
-            System.out.println("로딩중...");
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                // InterruptedException 처리
-                e.printStackTrace();
-            }
+            Animation.loading();
         } catch (Exception e) {
             System.out.println("CommentsDAO addComment Error! : " + e);
         }
@@ -138,13 +133,7 @@ public class CommentsDAO {
                     // InterruptedException 처리
                     e.printStackTrace();
                 }
-                System.out.println("로딩중...");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
+                Animation.loading();
             } else {
                 System.out.println("댓글 수정에 실패했습니다.");
             }
@@ -217,13 +206,7 @@ public class CommentsDAO {
                     // InterruptedException 처리
                     e.printStackTrace();
                 }
-                System.out.println("로딩중...");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    // InterruptedException 처리
-                    e.printStackTrace();
-                }
+                Animation.loading();
             }
         } catch (Exception e) {
             System.out.println("CommentDAO commentDelete : " + e);
