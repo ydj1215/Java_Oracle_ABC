@@ -202,7 +202,7 @@ public class MainApplication {
     }
 
     public static void printSecondMenu() throws IOException, InterruptedException {
-        System.out.println("<글 관리 프로그램>");
+        Animation.logo();
         System.out.println("[1] 글쓰기");
         System.out.println("[2] 글 목록보기");
         System.out.println("[3] 로그아웃");

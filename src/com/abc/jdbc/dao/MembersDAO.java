@@ -1,5 +1,6 @@
 package com.abc.jdbc.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,7 +67,7 @@ public class MembersDAO {
     }
 
     // 회원 가입
-    public void addMember(MembersDTO membersDTO) {
+    public void addMember(MembersDTO membersDTO) throws IOException, InterruptedException {
         System.out.print("아이디 입력: ");
         String inputId = sc.nextLine();
         System.out.print("비밀번호 입력: ");
@@ -86,6 +87,10 @@ public class MembersDAO {
             System.out.println("회원가입이 완료되었습니다.");
             Animation.waitMoment();
         } catch (Exception e) {
+            Animation.loading();
+            System.out.println("중복된 아이디입니다.");
+            System.out.println("다른 아이디로 회원가입을 진행해주세요.");
+            Animation.waitMoment();
             System.out.println("MembersDAO addMember Error! : " + e);
         }
     }
