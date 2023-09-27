@@ -168,7 +168,6 @@ public class PostsDAO {
         return (authorName != null) ? authorName : "회원 탈퇴";
     }
 
-
     // 게시글 들어가기
     public List<PostsDTO> enterPost(int postId) {
         List<PostsDTO> postsList = new ArrayList<>();

@@ -15,7 +15,7 @@ public class Animation {
                 "  |_____|\n" +
                 "  //  \\\\ \n" +
                 " (_\")(\"_)");
-        Thread.sleep(500);
+        Thread.sleep(200);
         MainApplication.clearScreen();
         System.out.println("   _      U  ___ u\n" +
                 "  |\"|      \\/\"_ \\/\n" +
@@ -24,7 +24,7 @@ public class Animation {
                 "  |_____\\_)-\\___/ \n" +
                 "  //  \\\\     \\\\   \n" +
                 " (_\")(\"_)   (__)  ");
-        Thread.sleep(500);
+        Thread.sleep(200);
         MainApplication.clearScreen();
         System.out.println("   _      U  ___ u   _     \n" +
                 "  |\"|      \\/\"_ \\U  /\"\\  u \n" +
@@ -33,7 +33,7 @@ public class Animation {
                 "  |_____\\_)-\\___//_/   \\_\\ \n" +
                 "  //  \\\\     \\\\   \\\\    >> \n" +
                 " (_\")(\"_)   (__) (__)  (__)");
-        Thread.sleep(500);
+        Thread.sleep(200);
         MainApplication.clearScreen();
         System.out.println("   _      U  ___ u   _     ____   \n" +
                 "  |\"|      \\/\"_ \\U  /\"\\  u|  _\"\\  \n" +
@@ -42,7 +42,7 @@ public class Animation {
                 "  |_____\\_)-\\___//_/   \\_\\|____/ u\n" +
                 "  //  \\\\     \\\\   \\\\    >> |||_   \n" +
                 " (_\")(\"_)   (__) (__)  (__(__)_)  ");
-        Thread.sleep(500);
+        Thread.sleep(200);
         MainApplication.clearScreen();
         System.out.println("   _      U  ___ u   _     ____            \n" +
                 "  |\"|      \\/\"_ \\U  /\"\\  u|  _\"\\   ___     \n" +
@@ -51,7 +51,7 @@ public class Animation {
                 "  |_____\\_)-\\___//_/   \\_\\|____/ U/| |\\u   \n" +
                 "  //  \\\\     \\\\   \\\\    >> |||.-,_|___|_,-.\n" +
                 " (_\")(\"_)   (__) (__)  (__(__)_\\_)-' '-(_/ ");
-        Thread.sleep(500);
+        Thread.sleep(200);
         MainApplication.clearScreen();
         System.out.println("   _      U  ___ u   _     ____            _   _    \n" +
                 "  |\"|      \\/\"_ \\U  /\"\\  u|  _\"\\   ___    | \\ |\"|   \n" +
@@ -60,7 +60,7 @@ public class Animation {
                 "  |_____\\_)-\\___//_/   \\_\\|____/ U/| |\\u  |_| \\_|   \n" +
                 "  //  \\\\     \\\\   \\\\    >> |||.-,_|___|_,-||   \\\\,-.\n" +
                 " (_\")(\"_)   (__) (__)  (__(__)_\\_)-' '-(_/(_\")  (_/ ");
-        Thread.sleep(500);
+        Thread.sleep(200);
         MainApplication.clearScreen();
         System.out.println("   _      U  ___ u   _     ____            _   _    ____  \n" +
                 "  |\"|      \\/\"_ \\U  /\"\\  u|  _\"\\   ___    | \\ |\"|U /\"___|u\n" +
@@ -69,7 +69,7 @@ public class Animation {
                 "  |_____\\_)-\\___//_/   \\_\\|____/ U/| |\\u  |_| \\_|  \\____| \n" +
                 "  //  \\\\     \\\\   \\\\    >> |||.-,_|___|_,-||   \\\\,-_)(|_  \n" +
                 " (_\")(\"_)   (__) (__)  (__(__)_\\_)-' '-(_/(_\")  (_(__)__) ");
-        Thread.sleep(500);
+        Thread.sleep(200);
         MainApplication.clearScreen();
     }
 

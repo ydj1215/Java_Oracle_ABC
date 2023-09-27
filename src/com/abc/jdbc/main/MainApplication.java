@@ -72,6 +72,7 @@ public class MainApplication {
                         membersDAO.addMember(new MembersDTO());
                         break;
                     case 3: // 종료
+                        Animation.loading();
                         System.out.println("프로그램을 종료합니다...");
                         return;
                     default:
@@ -88,8 +89,7 @@ public class MainApplication {
                         String content = sc.nextLine();
                         PostsDTO myPostsDTO = new PostsDTO(title, content, loginMember.getId());
                         postsDAO.addPost(myPostsDTO);
-
-                        break;
+                        // break; 자동으로 다음 case로 넘어가게 하기 위해 주석 처리
                     case 2: // 게시글 목록 출력
                         List<PostsDTO> postsList = postsDAO.getAllPosts(); // 모든 게시글의 정보를 리스트에 저장
                         if (!postsList.isEmpty()) {
@@ -148,10 +148,12 @@ public class MainApplication {
                                         commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId()));
                                         break;
                                     case 5: // 댓글 수정
+                                        commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId()));
                                         commentsDAO.commentModify(loginMember, selectedPostID);
                                         commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId()));
                                         break;
                                     case 6: // 댓글 삭제
+                                        commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId()));
                                         commentsDAO.commentDelete(new CommentsDTO());
                                         commentsDAO.getCommentsByPostId(new CommentsDTO(Integer.toString(selectedPostID), loginMember.getId()));
                                         break;

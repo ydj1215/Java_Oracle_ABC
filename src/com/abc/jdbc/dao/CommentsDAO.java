@@ -33,9 +33,9 @@ public class CommentsDAO {
             preparedStatement.setString(2, commentsDTO.getMembersId());
             preparedStatement.setString(3, commentsDTO.getCommentsText());
             preparedStatement.executeUpdate();
+            Animation.loading();
             System.out.println("댓글을 작성했습니다.");
             Animation.waitMoment();
-            Animation.loading();
         } catch (Exception e) {
             System.out.println("CommentsDAO addComment Error! : " + e);
         }
@@ -59,8 +59,8 @@ public class CommentsDAO {
 
             if (commentsList.isEmpty()) {
                 System.out.println(commentsDTO.getPostsId() + "번 게시글에 댓글이 없습니다.");
+                Animation.waitMoment();
             } else {
-                System.out.println();
                 System.out.println("<" + commentsDTO.getPostsId() + "번 게시글의 댓글 목록>");
                 for (CommentsDTO comment : commentsList) {
                     System.out.println("댓글 번호 : " + comment.getId());
